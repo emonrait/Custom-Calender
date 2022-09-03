@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Custom Calender</string>
+    <string name="select_date">Select Date</string>
+</resources>
