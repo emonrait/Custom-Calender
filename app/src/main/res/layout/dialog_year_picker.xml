@@ -87,6 +87,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="Cancel"
+                android:background="@color/cardview_dark_background"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -97,6 +98,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:text="Ok"
+                android:background="@color/colorPrimary"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>

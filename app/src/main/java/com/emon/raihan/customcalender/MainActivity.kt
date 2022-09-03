@@ -140,14 +140,6 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         btn_cancel.setOnClickListener { alertDialog.dismiss() }
 
 
-        /* val sdf = SimpleDateFormat("dd MM yyyy")
-         val date: Date = sdf.parse("14 03 2011")// all done
-         // all done
-         val caln: Calendar = sdf.getCalendar()
-         val value=caln.get(Calendar.MONTH)
-         birthday_dialog_title.setText((value+1).toString())
- */
-
         alertDialog.show()
     }
 
@@ -172,13 +164,12 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
                 newmonth = newVal.toString()
             }
 
-            if (newVal < 10) {
+            if (dayPicker.value < 10) {
                 newday = "0" + (dayPicker.value).toString()
             } else {
                 newday = dayPicker.value.toString()
             }
-            dateValue.text =
-                dayPicker.value.toString() + "/" + newmonth + "/" + yearPicker.value.toString()
+
             val sdf = SimpleDateFormat("dd MM yyyy")
             val date: Date =
                 sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
@@ -189,9 +180,38 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             dayPicker.minValue = 1
             dayPicker.maxValue = lastDay
             Log.d("value-->", lastDay.toString())
-        } else if (yearPicker == picker) {
             dateValue.text =
-                dayPicker.value.toString() + "/" + monthPicker.value.toString() + "/" + newVal.toString()
+                newday + "/" + newmonth + "/" + yearPicker.value.toString()
+        } else if (yearPicker == picker) {
+            var newmonth = ""
+            var newday = ""
+
+            if (newVal < 10) {
+                newmonth = "0" + (newVal).toString()
+            } else {
+                newmonth = newVal.toString()
+            }
+
+            if (dayPicker.value < 10) {
+                newday = "0" + (dayPicker.value).toString()
+            } else {
+                newday = dayPicker.value.toString()
+            }
+
+            val sdf = SimpleDateFormat("dd MM yyyy")
+            val date: Date =
+                sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
+            // all done
+            val caln: Calendar = sdf.getCalendar()
+            val value = caln.get(Calendar.MONTH)
+            lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
+            dayPicker.minValue = 1
+            dayPicker.maxValue = lastDay
+            Log.d("value-->", lastDay.toString())
+
+            dateValue.text =
+                "$newday/$newmonth/$newVal"
+
         } else {
             dateValue.text =
                 dayPicker.value.toString() + "/" + monthPicker.value.toString() + "/" + yearPicker.value.toString()
