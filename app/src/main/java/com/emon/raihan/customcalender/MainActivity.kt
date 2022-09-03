@@ -53,15 +53,15 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
     fun createYearPicker() {
         val dialog = AlertDialog.Builder(this).setCancelable(false)
         val inflater = LayoutInflater.from(this)
-        val reg_layout = inflater.inflate(R.layout.dialog_year_picker, null)
+        val regLayout = inflater.inflate(R.layout.dialog_year_picker, null)
         //val dateValue = reg_layout.findViewById<TextView>(R.id.dateValue)
-        dateValue = reg_layout.findViewById<TextView>(R.id.dateValue)
-        dayPicker = reg_layout.findViewById<NumberPicker>(R.id.dayPicker)
-        monthPicker = reg_layout.findViewById<NumberPicker>(R.id.monthPicker)
-        yearPicker = reg_layout.findViewById<NumberPicker>(R.id.yearPicker)
-        val btn_ok = reg_layout.findViewById<Button>(R.id.btn_ok)
-        val btn_cancel = reg_layout.findViewById<Button>(R.id.btn_cancel)
-        dialog.setView(reg_layout)
+        dateValue = regLayout.findViewById(R.id.dateValue)
+        dayPicker = regLayout.findViewById(R.id.dayPicker)
+        monthPicker = regLayout.findViewById(R.id.monthPicker)
+        yearPicker = regLayout.findViewById(R.id.yearPicker)
+        val btnOk = regLayout.findViewById<Button>(R.id.btn_ok)
+        val btnCancel = regLayout.findViewById<Button>(R.id.btn_cancel)
+        dialog.setView(regLayout)
         val alertDialog = dialog.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -96,43 +96,38 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
 
         dayPicker.setOnValueChangedListener(this)
 
-        val newday: String
-        val newmonth: String
-
-        if (day < 10) {
-            newday = "0" + (day).toString()
+        val newday: String = if (day < 10) {
+            "0" + (day).toString()
         } else {
-            newday = day.toString()
+            day.toString()
         }
-        if (month < 10) {
-            newmonth = "0" + (month).toString()
+        val newmonth: String = if (month < 10) {
+            "0" + (month).toString()
         } else {
-            newmonth = month.toString()
+            month.toString()
         }
 
         dateValue.text = newday + "/" + newmonth + "/" + yearPicker.value.toString()
 
 
-        btn_ok.setOnClickListener {
-            val newdayt: String
-            val newmontht: String
+        btnOk.setOnClickListener {
 
-            if (dayPicker.value < 10) {
-                newdayt = "0" + (dayPicker.value).toString()
+            val newdayt: String = if (dayPicker.value < 10) {
+                "0" + (dayPicker.value).toString()
             } else {
-                newdayt = dayPicker.value.toString()
+                dayPicker.value.toString()
             }
-            if (monthPicker.value < 10) {
-                newmontht = "0" + (monthPicker.value).toString()
+            val newmontht: String = if (monthPicker.value < 10) {
+                "0" + (monthPicker.value).toString()
             } else {
-                newmontht = monthPicker.value.toString()
+                monthPicker.value.toString()
             }
-            textView.setText(newdayt + "/" + newmontht + "/" + yearPicker.value.toString())
+            textView.text = newdayt + "/" + newmontht + "/" + yearPicker.value.toString()
 
             alertDialog.dismiss()
         }
 
-        btn_cancel.setOnClickListener { alertDialog.dismiss() }
+        btnCancel.setOnClickListener { alertDialog.dismiss() }
 
 
         alertDialog.show()
@@ -141,34 +136,31 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {
         if (dayPicker == picker) {
-            val newday: String
-            if (newVal < 10) {
-                newday = "0" + (newVal).toString()
+            val newday: String = if (newVal < 10) {
+                "0" + (newVal).toString()
             } else {
-                newday = newVal.toString()
+                newVal.toString()
             }
             dateValue.text =
                 newday + "/" + monthPicker.value.toString() + "/" + yearPicker.value.toString()
         } else if (monthPicker == picker) {
-            val newmonth: String
-            val newday: String
 
-            if (newVal < 10) {
-                newmonth = "0" + (newVal).toString()
+            val newmonth: String = if (newVal < 10) {
+                "0" + (newVal).toString()
             } else {
-                newmonth = newVal.toString()
+                newVal.toString()
             }
 
-            if (dayPicker.value < 10) {
-                newday = "0" + (dayPicker.value).toString()
+            val newday: String = if (dayPicker.value < 10) {
+                "0" + (dayPicker.value).toString()
             } else {
-                newday = dayPicker.value.toString()
+                dayPicker.value.toString()
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
            // val date = sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
-            val caln: Calendar = sdf.getCalendar()
+            val caln: Calendar = sdf.calendar
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
             dayPicker.minValue = 1
             dayPicker.maxValue = lastDay
@@ -176,25 +168,23 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             dateValue.text =
                 newday + "/" + newmonth + "/" + yearPicker.value.toString()
         } else if (yearPicker == picker) {
-            val newmonth: String
-            val newday: String
 
-            if (monthPicker.value < 10) {
-                newmonth = "0" + (monthPicker.value).toString()
+            val newmonth: String = if (monthPicker.value < 10) {
+                "0" + (monthPicker.value).toString()
             } else {
-                newmonth = monthPicker.value.toString()
+                monthPicker.value.toString()
             }
 
-            if (dayPicker.value < 10) {
-                newday = "0" + (dayPicker.value).toString()
+            val newday: String = if (dayPicker.value < 10) {
+                "0" + (dayPicker.value).toString()
             } else {
-                newday = dayPicker.value.toString()
+                dayPicker.value.toString()
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
             //val date =sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
-            val caln: Calendar = sdf.getCalendar()
+            val caln: Calendar = sdf.calendar
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
             dayPicker.minValue = 1
             dayPicker.maxValue = lastDay
