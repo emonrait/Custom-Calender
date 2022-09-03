@@ -50,27 +50,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:descendantFocusability="blocksDescendants" />
+                android:descendantFocusability="blocksDescendants"
+                android:scaleX="1.2"
+                android:scaleY="1.2" />
 
             <NumberPicker
                 android:id="@+id/monthPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:descendantFocusability="blocksDescendants" />
+                android:descendantFocusability="blocksDescendants"
+                android:scaleX="1.2"
+                android:scaleY="1.2" />
 
             <NumberPicker
                 android:id="@+id/yearPicker"
+                style="@style/AppTheme.Picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
-                android:descendantFocusability="blocksDescendants" />
+                android:descendantFocusability="blocksDescendants"
+                android:scaleX="1.2"
+                android:scaleY="1.2" />
 
         </LinearLayout>
 
@@ -86,8 +93,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Cancel"
                 android:background="@color/cardview_dark_background"
+                android:text="Cancel"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
 
@@ -97,8 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="Ok"
                 android:background="@color/colorPrimary"
+                android:text="Ok"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
         </LinearLayout>
