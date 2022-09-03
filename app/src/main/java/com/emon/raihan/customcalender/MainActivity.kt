@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.NumberPicker
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,8 +23,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
     private lateinit var dayPicker: NumberPicker
     private lateinit var monthPicker: NumberPicker
     private lateinit var yearPicker: NumberPicker
-    var lastDay = 0
-    private val MONTH = arrayOf(
+    private var lastDay = 0
+    private val months = arrayOf(
         "January",
         "February",
         "March",
@@ -55,7 +57,6 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         val inflater = LayoutInflater.from(this)
         val reg_layout = inflater.inflate(R.layout.dialog_year_picker, null)
         //val dateValue = reg_layout.findViewById<TextView>(R.id.dateValue)
-        val birthday_dialog_title = reg_layout.findViewById<TextView>(R.id.birthday_dialog_title)
         dateValue = reg_layout.findViewById<TextView>(R.id.dateValue)
         dayPicker = reg_layout.findViewById<NumberPicker>(R.id.dayPicker)
         monthPicker = reg_layout.findViewById<NumberPicker>(R.id.monthPicker)
@@ -84,10 +85,9 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         monthPicker.minValue = 1
         monthPicker.maxValue = 12
         monthPicker.value = month
-        monthPicker.displayedValues = MONTH
+        monthPicker.displayedValues = months
 
         //monthPicker.wrapSelectorWheel = false
-
         monthPicker.setOnValueChangedListener(this)
 
 
@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
 
         dayPicker.setOnValueChangedListener(this)
 
-        var newday = ""
-        var newmonth = ""
+        val newday: String
+        val newmonth: String
 
         if (day < 10) {
             newday = "0" + (day).toString()
@@ -116,23 +116,20 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
 
 
         btn_ok.setOnClickListener {
-            //btnYear.setText(yearPicker.value.toString())
-            //saveDate(yearPicker.value)
-            // yearCode = yearPicker.value.toString()
-            var newday = ""
-            var newmonth = ""
+            val newdayt: String
+            val newmontht: String
 
             if (dayPicker.value < 10) {
-                newday = "0" + (dayPicker.value).toString()
+                newdayt = "0" + (dayPicker.value).toString()
             } else {
-                newday = dayPicker.value.toString()
+                newdayt = dayPicker.value.toString()
             }
             if (monthPicker.value < 10) {
-                newmonth = "0" + (monthPicker.value).toString()
+                newmontht = "0" + (monthPicker.value).toString()
             } else {
-                newmonth = monthPicker.value.toString()
+                newmontht = monthPicker.value.toString()
             }
-            textView.setText(newday + "/" + newmonth + "/" + yearPicker.value.toString())
+            textView.setText(newdayt + "/" + newmontht + "/" + yearPicker.value.toString())
 
             alertDialog.dismiss()
         }
@@ -143,10 +140,10 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         alertDialog.show()
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onValueChange(picker: NumberPicker?, oldVal: Int, newVal: Int) {
         if (dayPicker == picker) {
-            var newday = ""
+            val newday: String
             if (newVal < 10) {
                 newday = "0" + (newVal).toString()
             } else {
@@ -155,8 +152,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             dateValue.text =
                 newday + "/" + monthPicker.value.toString() + "/" + yearPicker.value.toString()
         } else if (monthPicker == picker) {
-            var newmonth = ""
-            var newday = ""
+            val newmonth: String
+            val newday: String
 
             if (newVal < 10) {
                 newmonth = "0" + (newVal).toString()
@@ -171,11 +168,9 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
-            val date: Date =
-                sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
+           // val date = sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
             val caln: Calendar = sdf.getCalendar()
-            val value = caln.get(Calendar.MONTH)
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
             dayPicker.minValue = 1
             dayPicker.maxValue = lastDay
@@ -183,8 +178,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             dateValue.text =
                 newday + "/" + newmonth + "/" + yearPicker.value.toString()
         } else if (yearPicker == picker) {
-            var newmonth = ""
-            var newday = ""
+            val newmonth: String
+            val newday: String
 
             if (monthPicker.value < 10) {
                 newmonth = "0" + (monthPicker.value).toString()
@@ -199,11 +194,9 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
-            val date: Date =
-                sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
+            //val date =sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
             val caln: Calendar = sdf.getCalendar()
-            val value = caln.get(Calendar.MONTH)
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
             dayPicker.minValue = 1
             dayPicker.maxValue = lastDay
