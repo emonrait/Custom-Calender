@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         val year = cal.get(Calendar.YEAR)
         lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
-        val month = cal.get(Calendar.MONTH)+1
+        val month = cal.get(Calendar.MONTH) + 1
 
 
 
@@ -122,15 +122,15 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             var newday = ""
             var newmonth = ""
 
-            if (day < 10) {
-                newday = "0" + (day).toString()
+            if (dayPicker.value < 10) {
+                newday = "0" + (dayPicker.value).toString()
             } else {
-                newday = day.toString()
+                newday = dayPicker.value.toString()
             }
-            if (month < 10) {
-                newmonth = "0" + (month).toString()
+            if (monthPicker.value < 10) {
+                newmonth = "0" + (monthPicker.value).toString()
             } else {
-                newmonth = month.toString()
+                newmonth = monthPicker.value.toString()
             }
             textView.setText(newday + "/" + newmonth + "/" + yearPicker.value.toString())
 
