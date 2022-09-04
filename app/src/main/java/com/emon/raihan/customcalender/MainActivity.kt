@@ -7,14 +7,14 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.NumberPicker
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
+    private lateinit var globalVariable: GlobalVariable
     private lateinit var textView: TextView
     private lateinit var btnDate: Button
     private lateinit var dateValue: TextView
@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
     private lateinit var monthPicker: NumberPicker
     private lateinit var yearPicker: NumberPicker
     private var lastDay = 0
+    var spinerList = ArrayList<String>()
+    var adapter: ArrayAdapter<String>? = null
     private val months = arrayOf(
         "January",
         "February",
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        globalVariable = this.applicationContext as GlobalVariable
         textView = findViewById(R.id.textView)
         btnDate = findViewById(R.id.btnDate)
 
@@ -61,6 +63,7 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         yearPicker = regLayout.findViewById(R.id.yearPicker)
         val btnOk = regLayout.findViewById<Button>(R.id.btn_ok)
         val btnCancel = regLayout.findViewById<Button>(R.id.btn_cancel)
+        val spinnerValue = regLayout.findViewById<Spinner>(R.id.spinnerValue)
         dialog.setView(regLayout)
         val alertDialog = dialog.create()
         alertDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -70,7 +73,6 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
         lastDay = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
         val day = cal.get(Calendar.DAY_OF_MONTH)
         val month = cal.get(Calendar.MONTH) + 1
-
 
 
         yearPicker.minValue = 1950
@@ -107,9 +109,36 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             month.toString()
         }
 
-        dateValue.text = newday + "/" + newmonth + "/" + yearPicker.value.toString()
+        dateValue.text =
+            newday + globalVariable.dateFormat + newmonth + globalVariable.dateFormat + yearPicker.value.toString()
+
+        spinerList.clear()
+        spinerList.add("Select Date Formatter")
+        spinerList.add("/")
+        spinerList.add("-")
+        spinerList.add(".")
+        adapter = ArrayAdapter<String>(
+            this@MainActivity,
+            android.R.layout.simple_spinner_dropdown_item,
+            spinerList
+        )
+        spinnerValue.setAdapter(adapter)
+        //adapter!!.notifyDataSetChanged()
 
 
+        spinnerValue.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                if (i > 0) {
+                    globalVariable.dateFormat = spinnerValue.selectedItem.toString().trim()
+                    dateValue.text =
+                        newday + globalVariable.dateFormat + newmonth + globalVariable.dateFormat + yearPicker.value.toString()
+
+
+                }
+            }
+
+            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+        })
         btnOk.setOnClickListener {
 
             val newdayt: String = if (dayPicker.value < 10) {
@@ -122,7 +151,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             } else {
                 monthPicker.value.toString()
             }
-            textView.text = newdayt + "/" + newmontht + "/" + yearPicker.value.toString()
+            textView.text =
+                newdayt + globalVariable.dateFormat + newmontht + globalVariable.dateFormat + yearPicker.value.toString()
 
             alertDialog.dismiss()
         }
@@ -141,8 +171,16 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             } else {
                 newVal.toString()
             }
+            val newmonth: String = if (monthPicker.value < 10) {
+                "0" + (monthPicker.value).toString()
+            } else {
+                monthPicker.value.toString()
+            }
+
             dateValue.text =
-                newday + "/" + monthPicker.value.toString() + "/" + yearPicker.value.toString()
+                newday + globalVariable.dateFormat + newmonth + globalVariable.dateFormat + yearPicker.value.toString()
+
+
         } else if (monthPicker == picker) {
 
             val newmonth: String = if (newVal < 10) {
@@ -167,7 +205,7 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             dayPicker.maxValue = lastDay
             Log.d("value-->", lastDay.toString())
             dateValue.text =
-                newday + "/" + newmonth + "/" + yearPicker.value.toString()
+                newday + globalVariable.dateFormat + newmonth + globalVariable.dateFormat + yearPicker.value.toString()
         } else if (yearPicker == picker) {
 
             val newmonth: String = if (monthPicker.value < 10) {
@@ -193,11 +231,11 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             Log.d("value-->", lastDay.toString())
 
             dateValue.text =
-                "$newday/$newmonth/$newVal"
+                newday + globalVariable.dateFormat + newmonth + globalVariable.dateFormat + newVal
 
         } else {
             dateValue.text =
-                dayPicker.value.toString() + "/" + monthPicker.value.toString() + "/" + yearPicker.value.toString()
+                dayPicker.value.toString() + globalVariable.dateFormat + monthPicker.value.toString() + globalVariable.dateFormat + yearPicker.value.toString()
         }
     }
 
