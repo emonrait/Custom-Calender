@@ -158,7 +158,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
-           // val date = sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
+            val date =
+                sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
             val caln: Calendar = sdf.calendar
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
@@ -182,7 +183,8 @@ class MainActivity : AppCompatActivity(), NumberPicker.OnValueChangeListener {
             }
 
             val sdf = SimpleDateFormat("dd MM yyyy")
-            //val date =sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
+            val date =
+                sdf.parse(newday + " " + newmonth + " " + yearPicker.value.toString())// all done
             // all done
             val caln: Calendar = sdf.calendar
             lastDay = caln.getActualMaximum(Calendar.DAY_OF_MONTH)
