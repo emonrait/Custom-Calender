@@ -4,4 +4,6 @@ import android.app.Application
 
 class GlobalVariable : Application() {
     var dateFormat: String? = "/"
+
+
 }
